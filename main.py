@@ -1,12 +1,57 @@
-import random
+import discord
+from discord.ext import commands
 
-characters = "+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+intents = discord.Intents.default()
+intents.message_content = True
 
-length = int(input("¿De cuántos caracteres quieres tu contraseña?: "))
 
-password = ""
+bot = commands.Bot(command_prefix='$', intents=intents)
 
-for i in range(length):
-    password = password + random.choice(characters)
+@bot.event
+async def en_linea():
+    print(f'Tu bot {bot.user} esta en linea!')
     
-print(f'tu contraseña es{password}')
+
+@bot.command()
+async def saludar(ctx,*, mensaje:str):
+    
+    mensaje = mensaje.lower().strip()
+    
+    if mensaje == 'hola':
+        
+        await ctx.send('Hola, ¿cómo estás?')
+        
+    elif mensaje == 'que onda':
+        
+        await ctx.send('Todo bien')
+    
+    elif mensaje == 'klk':
+        
+        await ctx.send('Todo bien')
+        
+    
+    if mensaje == 'adios':
+        
+        await ctx.send('adios, que estes bien')
+        
+    elif mensaje == 'chao':
+        
+        await ctx.send('hasta luego')
+    
+    elif mensaje == 'bye':
+        
+        await ctx.send('chao')
+        
+@bot.command()
+async def add(ctx, a: int, b: int):
+    await ctx.send(a + b)
+
+@bot.command()
+async def slap(ctx, members: commands.Greedy[discord.Member], *, reason='no reason'):
+    slapped = ", ".join(x.name for x in members)
+    await ctx.send(f'{slapped} just got slapped for {reason}')
+
+
+token = ''
+
+bot.run(token)
