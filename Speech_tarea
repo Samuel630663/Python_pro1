@@ -1,0 +1,17 @@
+import speech_recognition as sr  # Importamos la librería SpeechRecognition y le ponemos el alias "sr"
+def speech():
+    
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+    
+        r.adjust_for_ambient_noise(source)
+        print("🎤 ¡Habla ahora!")  
+        audio = r.listen(source)
+    try:
+        texto = r.recognize_google(audio, language="es-ES")
+        return texto
+    except sr.UnknownValueError:
+        return "❌ Google no pudo entender lo que dijiste. Intenta hablar más claro."
+    except sr.RequestError as e:
+        return "⚠️ No se pudo conectar con el servicio de Google; error: {0}".format(e)
+print(speech())
