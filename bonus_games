@@ -1,0 +1,53 @@
+from Speech import speech # Importa la función para reconocimiento de voz
+from random import choice , randint  # Para seleccionar palabras aleatorias
+import time # Para pausas entre intentos
+
+niveles = {
+"facil": ["agenda", "ami", "souris"],
+"intermedio": ["ordinateur", "algorithme", "développeur"],
+"dificil": ["réseau neuronal", "apprentissage automatique", "intelligence artificielle"]
+}
+
+def juego(nivel):
+    
+    palabra = niveles.get(nivel,[])  # Obtiene las palabras del nivel
+    
+    if not palabra:
+        
+        print('No tenemos ese nivel')
+        
+        return
+    
+    puntuacion = 0 # Inicializa la puntuación
+    
+    numero_intentos = 3
+    
+    for i in range(len(palabra)):
+        
+        palabra_aleatorio = choice(palabra)
+        
+        print(f'por favor pronuncie la palabra: {palabra_aleatorio}')
+        
+        grabar_voz = speech()
+        
+        print(f'usted dijo {grabar_voz}')
+        
+        if palabra_aleatorio ==  grabar_voz: # Compara las palabras
+            
+            puntuacion += 1
+            
+            print('muy bien eres un pro')
+            
+        else:
+            
+            print('no le sabes')
+            print(f'la palabra es {palabra_aleatorio}')
+            
+            
+        time.sleep(2)
+            
+    print(f'se acabo el juego. su puntuacion es {puntuacion}/{len(palabra)}')
+
+# Solicita el nivel al usuario y ejecuta el juego    
+seleccionar = input('seleccione el nivel facil, intermedio, dificil: ')
+juego(seleccionar)
